@@ -1,0 +1,10 @@
+{{ template "header" . }}
+<h1>{{ .Username }} さんのマイページ</h1>
+<p><a href="/logout">ログアウト</a></p>
+<p><a href="/list">タスク一覧</a></p>
+<ul>
+    <li><a href="/mypage/change_username">ユーザーネーム変更</a></li>
+    <li><a href="/mypage/change_password">パスワード変更</a></li>
+    <li><a href="/mypage/delete_account">アカウント削除</a></li>
+</ul>
+{{ template "footer" }}

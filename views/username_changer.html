@@ -1,0 +1,13 @@
+{{ template "header" . }}
+<h1>Change Username</h1>
+{{ if .Error }}
+<p><font color="#FF0000">{{ .Error }}</font><p>
+{{ end }}
+<form action="/mypage/change_username" method="POST">
+    <label>現在のユーザ名: </label><input type="text" name="current_username" value="{{ .Current_Username }}" readonly><br>
+    <label>新しいユーザ名: </label><input type="text" name="new_username" value="{{ .New_Username }}" required><br>
+    <label>パスワード: </label><input type="password" name="password" value="" required><br>
+    <input type="submit" value="変更" onclick="confirm_username_update()">
+</form>
+<p><a href="/mypage">マイページに戻る</a></p>
+{{ template "footer" }}

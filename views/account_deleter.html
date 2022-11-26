@@ -1,0 +1,15 @@
+{{ template "header" . }}
+<h1>Delete Account</h1>
+
+{{ if .Error }}
+<p><font color="#FF0000">{{ .Error }}</font><p>
+{{ end }}
+以下の内容を承諾の上、パスワードを入力し「アカウントを削除」ボタンを押してください。
+<br><br>
+<form action="/mypage/delete_account" method="POST">
+    <label><input type="checkbox" name="confirm" value="true">アカウント削除後のデータの復元はできないことを理解しました</label><br>
+    <label>パスワード: </label><input type="password" name="password" value="" required><br>
+    <input type="submit" value="アカウントを削除" onclick="confirm_delete_account()">
+</form>
+<p><a href="/mypage">マイページに戻る</a></p>
+{{ template "footer" }}
