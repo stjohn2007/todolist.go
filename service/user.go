@@ -76,14 +76,6 @@ func RegisterUser(ctx *gin.Context) {
 		return
 	}
 
-	// 保存状態の確認
-	id, _ := result.LastInsertId()
-	var user database.User
-	err = db.Get(&user, "SELECT id, name, password FROM users WHERE id = ?", id)
-	if err != nil {
-		Error(http.StatusInternalServerError, err.Error())(ctx)
-		return
-	}
 	ctx.Redirect(http.StatusFound, "/login")
 }
 
