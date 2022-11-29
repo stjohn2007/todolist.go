@@ -1,5 +1,7 @@
 {{ template "header" . }}
+<body>
 <h1>ユーザ登録</h1>
+パスワードには英子文字・英大文字・数字を少なくとも1文字以上含める必要があります．
 {{ if .Error }}
 <p><font color="#FF0000">{{ .Error }}</font><p>
 {{ end }}

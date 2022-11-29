@@ -1,8 +1,41 @@
 {{ template "header" . }}
+
+<body onload="preset_deadline({{ .Deadline }})">
 <h1>タスクの新規登録</h1>
 <form action="/task/new" method="POST">
-    <label>Title</label><input type="text" name="title" required>
+    <hr>
+    <label>タスク名</label>
     <br>
+    <input type="text" name="title" value="{{ .TaskTitle }}" required>
+    <hr style="border:none;border-top:dashed 1px;height:1px;">
+
+    <label>タグ</label>
+    <br>
+    <input type="text" name="tag" value="{{ .Tag }}" required>
+    <hr style="border:none;border-top:dashed 1px;height:1px;">
+
+    <label>締め切り</label>
+    <br>
+    <input type="datetime-local" name="deadline" id="cal" required>
+    <hr style="border:none;border-top:dashed 1px;height:1px;">
+
+    <label>優先度（優先度が高いタスクは<b>強調表示</b>されます）</label>
+    <br>
+    <input type="radio" name="priority" value="t" {{ if .Priority }}checked{{ end }}><label>高</label>
+    <input type="radio" name="priority" value="f" {{ if not .Priority }}checked{{ end }}><label>通常</label>
+    <hr style="border:none;border-top:dashed 1px;height:1px;">
+    
+    <label>自分以外のタスク管理者</label>
+    <br>
+    <div id="owner_form">
+        {{ if .Error }}
+        <p><font color="#FF0000">{{ .Error }}</font><p>
+        {{ end }}
+        <button type="button" onclick="add_owner_form()">タスク管理者を追加</button>
+        <br>
+    </div>
+    <hr style="border:none;border-top:dashed 1px;height:1px;">
+
     <input type="submit" value="登録">
     <a href="/list"><button type="button">戻る</button></a>
 </form>

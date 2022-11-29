@@ -1,14 +1,42 @@
 {{ template "header" . }}
-<h1>Task: {{ .Title }}</h1>
+<body onload="display_task()">
+<h1>Task: {{ .Task.Title }}</h1>
+<hr>
 <dl>
     <dt>ID</dt>
-    <dd>{{ .ID }}</dd>
-    <dt>Created at</dt>
-    <dd>{{ .CreatedAt }}</dd>
-    <dt>Status</dt>
-    <dd><input type="checkbox" {{ if .IsDone }}checked {{ end }}disabled />済</dd>
+    <dd>{{ .Task.ID }}</dd>
+    <hr style="border:none;border-top:dashed 1px;height:1px;">
+
+    <dt>タグ</dt>
+    <dd>{{ .Task.Tag }}</dd>
+    <hr style="border:none;border-top:dashed 1px;height:1px;">
+
+    <dt>締め切り</dt>
+    <dd>{{ .Task.Deadline }}</dd>
+    <hr style="border:none;border-top:dashed 1px;height:1px;">
+
+    <dt>タスク作成日</dt>
+    <dd>{{ .Task.CreatedAt }}</dd>
+    <hr style="border:none;border-top:dashed 1px;height:1px;">
+
+    <dt>優先度</dt>
+    <dd>
+        <input type="radio" name="priority" {{ if .Task.Priority }} checked {{ else }} disabled {{ end }}>高
+        <input type="radio" name="priority" {{ if not .Task.Priority }} checked {{ else }} disabled {{ end }}>通常
+    </dd>
+    <hr style="border:none;border-top:dashed 1px;height:1px;">
+
+    <dt>タスク管理者</dt>
+    {{ range $user := .Users }}
+    <dd>{{ $user }}</dd>
+    {{ end }}
+    <hr style="border:none;border-top:dashed 1px;height:1px;">
+
+    <dt>完了状況</dt>
+    <dd><input type="checkbox" {{ if .Task.IsDone }}checked {{ end }}disabled />完了</dd>
+    <hr style="border:none;border-top:dashed 1px;height:1px;">
 </dl>
 <a href="/list"><button type="button">リストへ戻る</button></a>
-<a href="/task/edit/{{ .ID }}"><button type="button">編集</button></a>
-<button type="button" onclick="confirm_task_delete({{ .ID }})">削除</button>
+<a href="/task/edit/{{ .Task.ID }}"><button type="button">編集</button></a>
+<button type="button" onclick="confirm_task_delete({{ .Task.ID }})">削除</button>
 {{ template "footer" }}

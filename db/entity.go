@@ -9,6 +9,9 @@ import (
 type Task struct {
 	ID        uint64    `db:"id"`
 	Title     string    `db:"title"`
+	Tag       string    `db;"tag"`
+	Deadline  time.Time `db:"deadline"`
+	Priority  bool      `db:"priority"`
 	CreatedAt time.Time `db:"created_at"`
 	IsDone    bool      `db:"is_done"`
 }

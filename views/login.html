@@ -1,11 +1,25 @@
-{{ template "header" . }}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+    <title>{{ .Title }} | todolist.go</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <script type="text/javascript" src="/assets/script.js"></script>
+</head>
+<body>
 <h1>Login</h1>
 {{ if .Error }}
 <p><font color="#FF0000">{{ .Error }}</font></p>
 {{ end }}
 <form action="/login" method="POST">
-    <label>ユーザ名: </label><input type="text" name="username" value="{{ .Username }}" required><br>
-    <label>パスワード: </label><input type="password" name="password" required></br>
+    <label>ユーザ名: </label><input type="text" name="username" value="{{ .Username }}" required>
+    <br>
+    <label>パスワード: </label>
+    <input type="password" name="password" id="password" required>
+    <span id="buttonEye" class="fa fa-eye" onclick="pushHideButton()"></span>
+    </br>
     <input type="submit" value="ログイン">
 </form>
 <p><a href="/user/new">ユーザ登録</a></p>

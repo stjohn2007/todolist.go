@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"net/http"
+	"regexp"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -37,6 +38,15 @@ func RegisterUser(ctx *gin.Context) {
 		return
 	case password != password_check:
 		ctx.HTML(http.StatusBadRequest, "new_user_form.html", gin.H{"Title": "Register user", "Error": "Password doesn't match confirm password"})
+		return
+	}
+
+	// パスワードの複雑さチェック
+	upper_check := regexp.MustCompile("[A-Z]")
+	lower_check := regexp.MustCompile("[a-z]")
+	num_check := regexp.MustCompile("[0-9]")
+	if !(upper_check.MatchString(password) && lower_check.MatchString(password) && num_check.MatchString(password)) {
+		ctx.HTML(http.StatusBadRequest, "new_user_form.html", gin.H{"Title": "Register user", "Error": "パスワードには英子文字・英大文字・数字を少なくとも1文字以上含める必要があります"})
 		return
 	}
 

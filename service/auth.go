@@ -27,15 +27,15 @@ func UserCheck(ctx *gin.Context) {
 	}
 
 	// parse taskID given as a parameter
-	taksID, err := strconv.Atoi(ctx.Param("id"))
+	taskID, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		Error(http.StatusBadRequest, err.Error())(ctx)
 		ctx.Abort()
 	}
 
 	// Get task userID
-	var task_userID uint64
-	err = db.Get(&task_userID, "SELECT user_id FROM ownership WHERE task_id = ?", taksID)
+	var owners []database.Owner
+	err = db.Select(&owners, "SELECT user_id, task_id FROM ownership WHERE task_id = ?", taskID)
 	if err != nil {
 		Error(http.StatusBadRequest, err.Error())(ctx)
 		ctx.Abort()
@@ -45,11 +45,17 @@ func UserCheck(ctx *gin.Context) {
 	session_userID := sessions.Default(ctx).Get(userkey)
 
 	// Execute taks authentication
-	if task_userID != session_userID {
+	check := false
+	for _, owner := range owners {
+		if owner.UserID == session_userID {
+			check = true
+		}
+	}
+	if check {
+		ctx.Next()
+	} else {
 		ctx.Redirect(http.StatusFound, "/forbidden")
 		ctx.Abort()
-	} else {
-		ctx.Next()
 	}
 
 }
