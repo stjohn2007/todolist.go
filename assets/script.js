@@ -54,7 +54,7 @@ function generate_task() {
         // 締切過ぎ
         if (+compare_date > +compare_deadline){
             deadline.textContent = `${deadline_date.getMonth() + 1}月${deadline_date.getDate()}日${youbi_array[deadline_date.getDay()]}（締切過ぎ）`
-            if (tasks[i].getElementsByTagName('td')[4].textContent == "未完了"){
+            if (tasks[i].getElementsByTagName('td')[5].textContent == "未完了"){
                 deadline.style.color = "red"
             }
             continue

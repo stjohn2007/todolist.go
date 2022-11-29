@@ -70,7 +70,7 @@ func RegisterUser(ctx *gin.Context) {
 	}
 
 	// DB への保存
-	result, err := db.Exec("INSERT INTO users(name, password) VALUES (?, ?)", username, hash(password))
+	_, err = db.Exec("INSERT INTO users(name, password) VALUES (?, ?)", username, hash(password))
 	if err != nil {
 		Error(http.StatusInternalServerError, err.Error())(ctx)
 		return
@@ -296,6 +296,15 @@ func ChangePassword(ctx *gin.Context) {
 	// 新パスワードの照合
 	if new_password != new_password_check {
 		ctx.HTML(http.StatusBadRequest, "password_changer.html", gin.H{"Title": "Change Password", "Error": "Password mismatch", "Username": user.Name})
+		return
+	}
+
+	// パスワードの複雑さチェック
+	upper_check := regexp.MustCompile("[A-Z]")
+	lower_check := regexp.MustCompile("[a-z]")
+	num_check := regexp.MustCompile("[0-9]")
+	if !(upper_check.MatchString(new_password) && lower_check.MatchString(new_password) && num_check.MatchString(new_password)) {
+		ctx.HTML(http.StatusBadRequest, "password_changer.html", gin.H{"Title": "Change Password", "Error": "パスワードには英子文字・英大文字・数字を少なくとも1文字以上含める必要があります", "Username": user.Name})
 		return
 	}
 
